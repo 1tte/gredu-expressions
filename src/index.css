@@ -1,0 +1,96 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Animasi yang Sudah Ada (jika masih mau dipakai) --- */
+@keyframes pulse-bracket { /* Untuk Corner Brackets */
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+.animate-pulse-bracket {
+  animation: pulse-bracket 1.5s ease-in-out infinite;
+}
+
+/* --- Animasi Baru --- */
+
+/* Garis Pindai Horizontal yang Lebih Halus */
+@keyframes scan-horizontal {
+  0% {
+    left: -10%; /* Mulai dari luar kiri */
+    opacity: 0.7;
+  }
+  100% {
+    left: 110%; /* Selesai di luar kanan */
+    opacity: 0;
+  }
+}
+.animate-scan-horizontal {
+  position: absolute;
+  top: 0; /* Akan diatur oleh JS */
+  width: 2px; /* Lebar garis */
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(0, 191, 255, 0.7), transparent); /* Deep sky blue */
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.7), 0 0 20px rgba(0, 191, 255, 0.5);
+  animation: scan-horizontal 3s linear infinite;
+  will-change: left, opacity; /* Optimasi performa */
+}
+
+
+/* Efek "Target Acquired" (muncul dan memudar) */
+@keyframes target-acquired-anim {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+.animate-target-acquired {
+  animation: target-acquired-anim 0.7s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+/* Animasi untuk teks deteksi (fade-in & slide-up) */
+@keyframes text-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-text-detection {
+  animation: text-fade-in-up 0.5s ease-out forwards;
+}
+
+/* Styling untuk Reticle (bisa berupa SVG atau div) */
+.target-reticle {
+  position: absolute;
+  border: 2px solid rgba(0, 220, 255, 0.7); /* Cyan lebih terang */
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 220, 255, 0.6), inset 0 0 10px rgba(0, 220, 255, 0.4);
+  pointer-events: none; /* Agar tidak menghalangi interaksi video */
+  /* Ukuran akan diatur oleh JS */
+}
+
+/* Styling untuk elemen crosshair di reticle */
+.reticle-crosshair::before,
+.reticle-crosshair::after {
+  content: '';
+  position: absolute;
+  background-color: rgba(0, 220, 255, 0.7);
+}
+.reticle-crosshair::before { /* Garis vertikal */
+  left: 50%;
+  top: -10%;
+  width: 2px;
+  height: 120%;
+  transform: translateX(-50%);
+}
+.reticle-crosshair::after { /* Garis horizontal */
+  top: 50%;
+  left: -10%;
+  height: 2px;
+  width: 120%;
+  transform: translateY(-50%);
+}
